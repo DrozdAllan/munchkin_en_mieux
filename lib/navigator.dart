@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:munchkin_en_mieux/pages/home.dart';
+import 'package:munchkin_en_mieux/pages/home/home.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -10,12 +10,15 @@ class RouteGenerator {
         );
       default:
         return MaterialPageRoute(
-          builder: (context) => const Scaffold(
-            body: Center(
-              child: Text('Page not found'),
-            ),
-          ),
+          builder: (context) => const Home(),
         );
+      // return MaterialPageRoute(
+      //   builder: (context) => const Scaffold(
+      //     body: Center(
+      //       child: Text('Page not found'),
+      //     ),
+      //   ),
+      // );
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'player.dart';
 
@@ -5,10 +6,9 @@ class PlayerBox {
   static Box? box;
 
   static final List<Player> players = [
-    Player('Allan', 3, 5, 1),
-    Player('Gacien', 4, 6, 2),
-    Player('Thomas', 2, 8, 4),
-    Player('BenjaminTesPutainDeChaussures', 0, 0, 0)
+    Player('Allan', 3, 5, 4294924066),
+    Player('Gacien', 4, 6, 4294924066),
+    Player('Thomas', 2, 8, 4294924066),
   ];
 
   static Future<void> init() async {

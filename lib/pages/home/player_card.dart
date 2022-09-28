@@ -1,61 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:munchkin_en_mieux/models/player/player_box.dart';
-
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
-
-  static const routeName = '/home';
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    var box = PlayerBox.box;
-
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 42.0),
-              child: Text('Munchkin En Mieux'),
-            ),
-            ValueListenableBuilder(
-              valueListenable: box!.listenable(),
-              builder: (context, value, child) {
-                List playersList = box.values.toList();
-                //   inspect(playersList);
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: playersList.length,
-                  itemBuilder: (context, index) {
-                    return PlayerCard(name: playersList.elementAt(index).name.toString());
-                  },
-                );
-              },
-            ),
-            TextButton(
-              onPressed: () {},
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
-              child: const Text('Add Player'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:munchkin_en_mieux/models/player/player.dart';
 
 class PlayerCard extends StatefulWidget {
-  const PlayerCard({Key? key, required this.name}) : super(key: key);
+  const PlayerCard({Key? key, required this.player}) : super(key: key);
 
-  final String name;
+  final Player player;
 
   @override
   State<PlayerCard> createState() => _PlayerCardState();
@@ -63,7 +12,6 @@ class PlayerCard extends StatefulWidget {
 
 class _PlayerCardState extends State<PlayerCard> {
   var levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  var bonuses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   var level = 1;
   var bonus = 0;
   ValueNotifier<int> power = ValueNotifier<int>(1);
@@ -71,16 +19,19 @@ class _PlayerCardState extends State<PlayerCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.blue),
-      margin: const EdgeInsets.only(bottom: 12.0),
-      height: 200.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Color(widget.player.colorId), width: 5.0),
+      ),
+      margin: const EdgeInsets.all(12.0),
+      height: 210.0,
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: Text(
-              widget.name.toString(),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              widget.player.name.toString().toUpperCase(),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0),
             ),
           ),
           Row(
@@ -88,13 +39,13 @@ class _PlayerCardState extends State<PlayerCard> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
-                height: 170.0,
-                width: 70.0,
-                child: Column(children: [
-                  const Text('Level'),
+                height: 165.0,
+                width: 100.0,
+                child: Row(children: [
+                  const Icon(Icons.airplanemode_on),
                   SizedBox(
                     height: 140.0,
-                    width: 70.0,
+                    width: 75.0,
                     child: ListWheelScrollView(
                         itemExtent: 52,
                         diameterRatio: 1.2,
@@ -109,7 +60,7 @@ class _PlayerCardState extends State<PlayerCard> {
                             Center(
                               child: Text(
                                 i.toString(),
-                                style: const TextStyle(fontSize: 48.0),
+                                style: const TextStyle(fontSize: 38.0),
                               ),
                             ),
                         ]),
@@ -117,28 +68,28 @@ class _PlayerCardState extends State<PlayerCard> {
                 ]),
               ),
               SizedBox(
-                height: 170.0,
-                width: 70.0,
-                child: Column(children: [
-                  const Text('Bonus'),
+                height: 165.0,
+                width: 100.0,
+                child: Row(children: [
+                  const Icon(Icons.push_pin),
                   SizedBox(
                     height: 140.0,
-                    width: 70.0,
+                    width: 75.0,
                     child: ListWheelScrollView(
                         itemExtent: 52,
                         diameterRatio: 1.2,
                         useMagnifier: true,
                         magnification: 1.4,
                         onSelectedItemChanged: (value) {
-                          bonus = value + 1;
+                          bonus = value;
                           power.value = level + bonus;
                         },
                         children: [
-                          for (var i in bonuses)
+                          for (var i = 0; i <= 30; i++)
                             Center(
                               child: Text(
                                 i.toString(),
-                                style: const TextStyle(fontSize: 48.0),
+                                style: const TextStyle(fontSize: 38.0),
                               ),
                             ),
                         ]),
@@ -146,18 +97,18 @@ class _PlayerCardState extends State<PlayerCard> {
                 ]),
               ),
               SizedBox(
-                height: 170.0,
-                width: 80.0,
-                child: Column(children: [
-                  const Text('Power'),
+                height: 165.0,
+                width: 100.0,
+                child: Row(children: [
+                  const Icon(Icons.equalizer),
                   SizedBox(
                     height: 140.0,
-                    width: 80.0,
+                    width: 75.0,
                     child: Center(
                       child: ValueListenableBuilder(
                         valueListenable: power,
                         builder: (context, value, child) =>
-                            Text(value.toString(), style: const TextStyle(fontSize: 68.0)),
+                            Text(value.toString(), style: const TextStyle(fontSize: 54.0)),
                       ),
                     ),
                   ),
