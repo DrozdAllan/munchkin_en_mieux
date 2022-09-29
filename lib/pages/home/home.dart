@@ -1,17 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:munchkin_en_mieux/models/player/player_box.dart';
-
+import 'package:munchkin_en_mieux/pages/home/player_list.dart';
+import 'package:munchkin_en_mieux/pages/strategic/strategic.dart';
 import 'add_player_dialog.dart';
-import 'player_card.dart';
 import 'remove_player_dialog.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
-  static const routeName = '/home';
 
   @override
   State<Home> createState() => _HomeState();
@@ -20,16 +14,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    var box = PlayerBox.box;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Munchkin En Mieux'),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            splashRadius: 20.0,
             icon: const Icon(Icons.query_stats),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Strategic(),
+                ),
+              );
+            },
           ),
         ],
         automaticallyImplyLeading: false,
@@ -37,21 +36,7 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ValueListenableBuilder(
-              valueListenable: box!.listenable(),
-              builder: (context, Box box, child) {
-                List playersList = box.values.toList();
-                inspect(playersList);
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: playersList.length,
-                  itemBuilder: (context, index) {
-                    return PlayerCard(player: playersList.elementAt(index));
-                  },
-                );
-              },
-            ),
+            const PlayerList(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -59,9 +44,7 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) {
-                        return AddPlayerDialog(box: box);
-                      },
+                      builder: (context) => const AddPlayerDialog(),
                     );
                   },
                   child: const Text('Add Player'),
@@ -70,9 +53,7 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) {
-                        return RemovePlayerDialog(playersList: box.values.toList(), box: box);
-                      },
+                      builder: (context) => const RemovePlayerDialog(),
                     );
                   },
                   child: const Text('Remove Player'),

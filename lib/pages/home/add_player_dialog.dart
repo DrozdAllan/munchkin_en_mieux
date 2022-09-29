@@ -2,20 +2,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:munchkin_en_mieux/provider/player_provider.dart';
 
-import '../../models/player/player.dart';
-
-class AddPlayerDialog extends StatefulWidget {
-  const AddPlayerDialog({Key? key, required this.box}) : super(key: key);
-
-  final Box box;
+class AddPlayerDialog extends ConsumerStatefulWidget {
+  const AddPlayerDialog({Key? key}) : super(key: key);
 
   @override
-  State<AddPlayerDialog> createState() => _AddPlayerDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AddPlayerDialogState();
 }
 
-class _AddPlayerDialogState extends State<AddPlayerDialog> {
+class _AddPlayerDialogState extends ConsumerState<AddPlayerDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   Color _color = const Color(0xff443a49);
@@ -34,7 +31,7 @@ class _AddPlayerDialogState extends State<AddPlayerDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: 550.0,
+        height: 325.0,
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
@@ -51,17 +48,19 @@ class _AddPlayerDialogState extends State<AddPlayerDialog> {
                 },
               ),
               SizedBox(
-                height: 380.0,
-                child: BlockPicker(pickerColor: _color, onColorChanged: changeColor),
+                height: 200.0,
+                child: BlockPicker(
+                    // TODO: choose Colors
+                    availableColors: [Color(6654564321), Color(456423134), Color(88965423)],
+                    pickerColor: _color,
+                    onColorChanged: changeColor),
               ),
               ElevatedButton(
                 onPressed: () {
-                  // test form fields
                   if (_formKey.currentState!.validate()) {
-                    // Process data.
-                    widget.box.add(
-                      Player(_name.text, 1, 0, _color.value),
-                    );
+                    ref
+                        .read(playerProvider.notifier)
+                        .addPlayer(Player(name: _name.text, colorId: _color.value, power: 1));
                     Navigator.pop(context);
                   }
                 },

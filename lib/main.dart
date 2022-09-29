@@ -1,14 +1,15 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:munchkin_en_mieux/navigator.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:munchkin_en_mieux/pages/home/home.dart';
-
-import 'models/player/player_box.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PlayerBox.init();
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,8 +22,6 @@ class MyApp extends StatelessWidget {
       darkTheme: FlexThemeData.dark(scheme: FlexScheme.mango),
       themeMode: ThemeMode.system,
       home: const Home(),
-      //   onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      //   initialRoute: Home.routeName,
     );
   }
 }

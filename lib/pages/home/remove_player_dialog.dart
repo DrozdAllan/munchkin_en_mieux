@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/player/player.dart';
-
 class RemovePlayerDialog extends StatelessWidget {
-  const RemovePlayerDialog({Key? key, required this.playersList, required this.box}) : super(key: key);
-
-  final List playersList;
-  final Box box;
+  const RemovePlayerDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +22,16 @@ class RemovePlayerDialog extends StatelessWidget {
                 crossAxisSpacing: 25.0,
                 mainAxisSpacing: 25.0,
                 children: [
-                  for (Player player in playersList)
-                    ElevatedButton(
-                      onPressed: () {
-                        box.delete(player.key);
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        player.name.toString(),
-                      ),
-                    )
+                  //   for (Player player in playersList)
+                  //     ElevatedButton(
+                  //       onPressed: () {
+                  //         box.delete(player.key);
+                  //         Navigator.pop(context);
+                  //       },
+                  //       child: Text(
+                  //         player.name.toString(),
+                  //       ),
+                  //     )
                 ],
               ),
             ),

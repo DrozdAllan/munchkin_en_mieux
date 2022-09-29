@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:munchkin_en_mieux/models/player/player.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../provider/player_provider.dart';
+
+// TODO: transform it to consumerstatefulwidget
 class PlayerCard extends StatefulWidget {
   const PlayerCard({Key? key, required this.player}) : super(key: key);
 
