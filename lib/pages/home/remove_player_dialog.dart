@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:munchkin_en_mieux/provider/player_provider.dart';
 
-class RemovePlayerDialog extends StatelessWidget {
+class RemovePlayerDialog extends ConsumerWidget {
   const RemovePlayerDialog({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(playerProvider);
+    final notifier = ref.read(playerProvider.notifier);
+
     return Dialog(
       child: Container(
         height: 400.0,
@@ -22,16 +26,16 @@ class RemovePlayerDialog extends StatelessWidget {
                 crossAxisSpacing: 25.0,
                 mainAxisSpacing: 25.0,
                 children: [
-                  //   for (Player player in playersList)
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         box.delete(player.key);
-                  //         Navigator.pop(context);
-                  //       },
-                  //       child: Text(
-                  //         player.name.toString(),
-                  //       ),
-                  //     )
+                  for (Player player in provider)
+                    ElevatedButton(
+                      onPressed: () {
+                        notifier.removePlayer(player.name);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        player.name.toString(),
+                      ),
+                    )
                 ],
               ),
             ),

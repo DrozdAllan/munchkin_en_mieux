@@ -38,7 +38,7 @@ class PlayerNotifier extends StateNotifier<List<Player>> {
     ];
   }
 
-  void setPower(String playerName, int power) async {
+  void setPower(String playerName, int power) {
     state = [
       for (final player in state)
         if (player.name == playerName) player.copyWith(power: power) else player,

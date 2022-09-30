@@ -15,7 +15,7 @@ class AddPlayerDialog extends ConsumerStatefulWidget {
 class _AddPlayerDialogState extends ConsumerState<AddPlayerDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
-  Color _color = const Color(0xff443a49);
+  Color _color = const Color.fromARGB(255, 0, 0, 0);
 
   @override
   void dispose() {
@@ -51,7 +51,7 @@ class _AddPlayerDialogState extends ConsumerState<AddPlayerDialog> {
                 height: 200.0,
                 child: BlockPicker(
                     // TODO: choose Colors
-                    availableColors: [Color(6654564321), Color(456423134), Color(88965423)],
+                    availableColors: const [Color(0xFFFFBA61), Color(0xFFE866FF), Color(0xFFA6FF72)],
                     pickerColor: _color,
                     onColorChanged: changeColor),
               ),
