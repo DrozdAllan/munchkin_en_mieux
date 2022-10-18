@@ -28,12 +28,13 @@ class RemovePlayerDialog extends ConsumerWidget {
                 children: [
                   for (Player player in provider)
                     ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(player.colorId))),
                       onPressed: () {
                         notifier.removePlayer(player.name);
                         Navigator.pop(context);
                       },
                       child: Text(
-                        player.name.toString(),
+                        player.name.toString().toUpperCase(),
                       ),
                     )
                 ],

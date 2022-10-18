@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Munchkin En Mieux',
-      theme: FlexThemeData.light(scheme: FlexScheme.mango),
-      darkTheme: FlexThemeData.dark(scheme: FlexScheme.mango),
+      theme: FlexThemeData.light(scheme: FlexScheme.damask),
+      darkTheme: FlexThemeData.dark(scheme: FlexScheme.damask),
       themeMode: ThemeMode.system,
       home: const Home(),
     );

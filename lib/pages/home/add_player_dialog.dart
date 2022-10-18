@@ -51,7 +51,7 @@ class _AddPlayerDialogState extends ConsumerState<AddPlayerDialog> {
                 height: 200.0,
                 child: BlockPicker(
                     // TODO: choose Colors
-                    availableColors: const [Color(0xFFFFBA61), Color(0xFFE866FF), Color(0xFFA6FF72)],
+                    availableColors: const [Color(0xFFFFBA61), Color(0xFFEC7FFF), Color(0xFF96D970)],
                     pickerColor: _color,
                     onColorChanged: changeColor),
               ),

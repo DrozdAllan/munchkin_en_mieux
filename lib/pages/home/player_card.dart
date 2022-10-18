@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../provider/is_epic_provider.dart';
 import '../../provider/player_provider.dart';
 
-// TODO: try a consumerWidget
-
 class PlayerCard extends ConsumerStatefulWidget {
   const PlayerCard({Key? key, required this.player}) : super(key: key);
 
@@ -22,7 +20,6 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(playerProvider.notifier);
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -35,7 +32,7 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
         children: [
           Text(
             widget.player.name.toString().toUpperCase(),
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0, color: Theme.of(context).cardColor),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -45,7 +42,10 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
                 height: 140.0,
                 width: 100.0,
                 child: Row(children: [
-                  const Icon(Icons.airplanemode_on),
+                  Icon(
+                    Icons.airplanemode_on,
+                    color: Theme.of(context).cardColor,
+                  ),
                   SizedBox(
                     height: 140.0,
                     width: 75.0,
@@ -58,7 +58,13 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
                           level = value + 1;
                           notifier.setPower(widget.player.name, level + bonus);
                         },
-                        children: ref.watch(isEpicProvider) ? epicLevels : normalLevels),
+                        children: List.generate(ref.watch(isEpicProvider) ? 19 : 9, (index) {
+                          var value = index + 1;
+                          return Text(
+                            value.toString(),
+                            style: TextStyle(fontSize: 38.0, color: Theme.of(context).cardColor),
+                          );
+                        })),
                   ),
                 ]),
               ),
@@ -66,7 +72,7 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
                 height: 140.0,
                 width: 100.0,
                 child: Row(children: [
-                  const Icon(Icons.push_pin),
+                  Icon(Icons.push_pin, color: Theme.of(context).cardColor),
                   SizedBox(
                     height: 140.0,
                     width: 75.0,
@@ -84,7 +90,7 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
                             Center(
                               child: Text(
                                 i.toString(),
-                                style: const TextStyle(fontSize: 38.0),
+                                style: TextStyle(fontSize: 38.0, color: Theme.of(context).cardColor),
                               ),
                             ),
                         ]),
@@ -95,14 +101,14 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
                 height: 140.0,
                 width: 100.0,
                 child: Row(children: [
-                  const Icon(Icons.equalizer),
+                  Icon(Icons.equalizer, color: Theme.of(context).cardColor),
                   SizedBox(
                     height: 140.0,
                     width: 75.0,
                     child: Center(
                       child: Text(
                         widget.player.power.toString(),
-                        style: const TextStyle(fontSize: 54.0),
+                        style: TextStyle(fontSize: 54.0, color: Theme.of(context).cardColor),
                       ),
                     ),
                   ),
@@ -113,29 +119,5 @@ class _PlayerCardState extends ConsumerState<PlayerCard> {
         ],
       ),
     );
-  }
-
-  List<Widget> get normalLevels {
-    return [
-      for (var i = 1; i <= 10; i++)
-        Center(
-          child: Text(
-            i.toString(),
-            style: const TextStyle(fontSize: 38.0),
-          ),
-        ),
-    ];
-  }
-
-  List<Widget> get epicLevels {
-    return [
-      for (var i = 1; i <= 20; i++)
-        Center(
-          child: Text(
-            i.toString(),
-            style: const TextStyle(fontSize: 38.0),
-          ),
-        ),
-    ];
   }
 }
